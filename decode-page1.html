@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elder Futhark Transliteration Reference — RTAC Working Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --blue: #1a3a6b; --border: #d0d4de; --bg: #f5f7fa; --bg-card: #fff; --text: #1c1c1c; --text-muted: #555; --text-light: #888; --accent: #2255a4; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+  .site-bar { background:var(--blue); padding:0.5rem 2rem; font-size:12px; color:rgba(255,255,255,0.6); display:flex; justify-content:space-between; align-items:center; }
+  .site-bar a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:11px; }
+  .site-bar strong { color:rgba(255,255,255,0.8); }
+  .page-wrap { max-width:960px; margin:0 auto; padding:2rem; }
+  h1 { font-size:1.25rem; font-weight:600; color:var(--blue); margin-bottom:0.25rem; }
+  .subtitle { font-size:13px; color:var(--text-muted); margin-bottom:2rem; }
+  .card { background:var(--bg-card); border:1px solid var(--border); padding:1.5rem; margin-bottom:1.5rem; }
+  .card h2 { font-size:0.95rem; font-weight:600; color:var(--blue); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:0.05em; font-size:12px; }
+  /* FUTHARK TABLE */
+  .futhark-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:0.5rem; }
+  .rune-cell { border:1px solid var(--border); padding:0.6rem; text-align:center; background:var(--bg); }
+  .rune-glyph { font-size:1.6rem; color:var(--blue); display:block; line-height:1; margin-bottom:0.25rem; }
+  .rune-name { font-size:10px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.05em; display:block; }
+  .rune-latin { font-size:12px; font-weight:600; color:var(--text); }
+  /* TRANSLITERATOR */
+  .tool-row { display:flex; gap:1rem; margin-bottom:1rem; }
+  .tool-col { flex:1; }
+  label { font-size:12px; font-weight:500; color:var(--text-muted); display:block; margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.04em; }
+  textarea { width:100%; border:1px solid var(--border); padding:0.75rem; font-family:'Source Code Pro',monospace; font-size:0.95rem; resize:vertical; min-height:100px; background:var(--bg); color:var(--text); }
+  textarea:focus { outline:none; border-color:var(--accent); }
+  .btn { font-size:13px; font-weight:500; background:var(--blue); color:#fff; border:none; padding:0.6rem 1.4rem; cursor:pointer; }
+  .btn:hover { background:#142c52; }
+  .btn-outline { background:transparent; color:var(--blue); border:1px solid var(--border); }
+  .btn-outline:hover { background:var(--bg); }
+  .output-box { background:#f0f3f8; border:1px solid var(--border); padding:0.75rem; font-family:'Source Code Pro',monospace; font-size:1rem; min-height:60px; letter-spacing:0.1em; color:var(--blue); word-break:break-all; }
+  /* KEYWORD TOOL */
+  .keyword-section { margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border); }
+  .input-row { display:flex; gap:0.75rem; align-items:flex-end; margin-bottom:1rem; }
+  .input-row input { border:1px solid var(--border); padding:0.55rem 0.75rem; font-size:13px; flex:1; font-family:'Source Code Pro',monospace; }
+  .input-row input:focus { outline:none; border-color:var(--accent); }
+  .acrostic-result { font-size:13px; color:var(--text-muted); line-height:1.7; }
+  .acrostic-result .hit { background:#fff3d0; color:#5a3800; font-weight:600; padding:0.05rem 0.2rem; }
+  /* NOTE */
+  .ref-note { background:#f0f4ff; border:1px solid #b0c0e0; border-left:3px solid var(--accent); padding:0.8rem 1rem; font-size:13px; color:var(--text-muted); line-height:1.6; margin-top:1rem; }
+  .ref-note strong { color:var(--text); }
+  footer { font-size:11px; color:var(--text-light); text-align:center; padding:2rem; border-top:1px solid var(--border); margin-top:1rem; }
+</style>
+</head>
+<body>
+<div class="site-bar">
+  <div><strong>RTAC Working Tools</strong> — Runic Text Archive Consortium</div>
+  <a href="#">Internal Reference — Not for public distribution</a>
+</div>
+<div class="page-wrap">
+  <h1>Elder Futhark Transliteration Reference &amp; Working Tools</h1>
+  <div class="subtitle">Standard Elder Futhark character table · Transliteration utility · Keyword extraction — RTAC Internal Tool v2.3</div>
+
+  <div class="card">
+    <h2>Elder Futhark Character Table</h2>
+    <div class="futhark-grid" id="futhtable"></div>
+    <div class="ref-note" style="margin-top:1rem;">
+      <strong>Note on the Codex Noctis (Page 1):</strong> The standard transliteration below applies to the bulk of Folio 2r. Dr. Voss flagged one anomalous sequence — a spaced 9-character line (line 9) — as a possible acrostic or positional cipher. The characters spell out a sequence in their isolated form. Use the keyword tool below to test extracted strings against known word lists or proposed keys.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Transliterator — Rune to Latin / Latin to Rune</h2>
+    <div class="tool-row">
+      <div class="tool-col">
+        <label for="input-text">Input text</label>
+        <textarea id="input-text" placeholder="Paste runes (e.g. ᚠᚢᚦᚨᚱᚲ) or Latin letters here..."></textarea>
+      </div>
+      <div class="tool-col">
+        <label>Output</label>
+        <div class="output-box" id="output-text">Output will appear here</div>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;">
+          <button class="btn" onclick="transliterate('rune-to-latin')">Rune → Latin</button>
+          <button class="btn" onclick="transliterate('latin-to-rune')">Latin → Rune</button>
+          <button class="btn btn-outline" onclick="document.getElementById('input-text').value='';document.getElementById('output-text').textContent='Output will appear here'">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="keyword-section">
+      <h2 style="border:none;padding:0;margin-bottom:0.75rem;">Acrostic / Keyword Extractor</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;">Extract the first character of each word from a transliterated line, or test a string against a known keyword. Useful for analyzing spaced or isolated character sequences.</p>
+      <div class="input-row">
+        <div style="flex:2;">
+          <label for="acro-input">Paste transliterated line (Latin characters)</label>
+          <input type="text" id="acro-input" placeholder="e.g. TH A R S K U E N S">
+        </div>
+        <button class="btn" onclick="extractAcrostic()">Extract</button>
+      </div>
+      <div class="acrostic-result" id="acro-result"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Page 1 Cipher Line — Working Notes</h2>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;">Line 9 of Folio 2r presents the sequence: <strong style="font-family:'Source Code Pro',monospace;font-size:1.1rem;color:var(--blue);">ᚦ · ᚨ · ᚱ · ᛊ · ᚲ · ᚢ · ᛖ · ᚾ · ᛊ</strong></p>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;">Standard transliteration: <strong style="font-family:'Source Code Pro',monospace;">TH · A · R · S · K · U · E · N · S</strong></p>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">Voss hypothesis: positional cipher or acrostic keyword. The surrounding text instructs the reader to <em>"speak the name aloud."</em> Test candidate words or names using the transliterator and keyword tool above. What 9-letter word or name do these characters spell when their phonetic values are applied in order?</p>
+    <div class="ref-note">
+      <strong>Hint from Voss's notes:</strong> "Think about who this book belonged to. The name isn't in the text — the text is pointing outward. Use the cover image."
+    </div>
+  </div>
+
+  <footer>Runic Text Archive Consortium — Internal Reference Tools — Not for public distribution<br>Contact: archive@rtac-research.org</footer>
+</div>
+
+<script>
+const FUTHARK = [
+  {g:'ᚠ',n:'fehu',l:'f'},{g:'ᚢ',n:'uruz',l:'u'},{g:'ᚦ',n:'thurisaz',l:'th'},
+  {g:'ᚨ',n:'ansuz',l:'a'},{g:'ᚱ',n:'raidho',l:'r'},{g:'ᚲ',n:'kenaz',l:'k'},
+  {g:'ᚷ',n:'gebo',l:'g'},{g:'ᚹ',n:'wunjo',l:'w'},{g:'ᚺ',n:'hagalaz',l:'h'},
+  {g:'ᚾ',n:'nauthiz',l:'n'},{g:'ᛁ',n:'isaz',l:'i'},{g:'ᛃ',n:'jera',l:'j'},
+  {g:'ᛇ',n:'eihwaz',l:'ei'},{g:'ᛈ',n:'perthro',l:'p'},{g:'ᛉ',n:'algiz',l:'z'},
+  {g:'ᛊ',n:'sowilo',l:'s'},{g:'ᛏ',n:'tiwaz',l:'t'},{g:'ᛒ',n:'berkano',l:'b'},
+  {g:'ᛖ',n:'ehwaz',l:'e'},{g:'ᛗ',n:'mannaz',l:'m'},{g:'ᛚ',n:'laguz',l:'l'},
+  {g:'ᛜ',n:'ingwaz',l:'ng'},{g:'ᛞ',n:'dagaz',l:'d'},{g:'ᛟ',n:'othalan',l:'o'},
+];
+
+const tableEl = document.getElementById('futhtable');
+FUTHARK.forEach(r => {
+  const cell = document.createElement('div');
+  cell.className = 'rune-cell';
+  cell.innerHTML = `<span class="rune-glyph">${r.g}</span><span class="rune-name">${r.n}</span><span class="rune-latin">${r.l.toUpperCase()}</span>`;
+  tableEl.appendChild(cell);
+});
+
+function transliterate(dir) {
+  const input = document.getElementById('input-text').value.trim();
+  const out = document.getElementById('output-text');
+  if (!input) { out.textContent = '—'; return; }
+  let result = '';
+  if (dir === 'rune-to-latin') {
+    let s = input;
+    // sort by length descending so 'th' matches before 't'
+    const sorted = [...FUTHARK].sort((a,b)=>b.g.length-a.g.length);
+    let i=0;
+    while(i<s.length){
+      if(s[i]==='·'||s[i]===' '){result+=s[i];i++;continue;}
+      let matched=false;
+      for(const r of sorted){
+        if(s.startsWith(r.g,i)){result+=r.l.toUpperCase();i+=r.g.length;matched=true;break;}
+      }
+      if(!matched){result+=s[i];i++;}
+    }
+  } else {
+    const latin = input.toUpperCase();
+    const map = {};
+    FUTHARK.forEach(r=>map[r.l.toUpperCase()]=r.g);
+    let i=0;
+    while(i<latin.length){
+      if(latin.substring(i,i+2)==='TH'&&map['TH']){result+=map['TH'];i+=2;}
+      else if(latin.substring(i,i+2)==='NG'&&map['NG']){result+=map['NG'];i+=2;}
+      else if(latin.substring(i,i+2)==='EI'&&map['EI']){result+=map['EI'];i+=2;}
+      else{
+        const c=latin[i];
+        result+=map[c]||c;
+        i++;
+      }
+    }
+  }
+  out.textContent = result || '—';
+}
+
+function extractAcrostic() {
+  const input = document.getElementById('acro-input').value.trim().toUpperCase();
+  const el = document.getElementById('acro-result');
+  if(!input){el.textContent='';return;}
+  const tokens = input.split(/[\s·]+/).filter(t=>t.length>0);
+  const initials = tokens.map(t=>t[0]).join('');
+  el.innerHTML = `<strong>Tokens:</strong> ${tokens.map(t=>`<span class="hit">${t}</span>`).join(' · ')}<br>
+  <strong>First characters:</strong> <span style="font-family:'Source Code Pro',monospace;font-size:1.1rem;color:var(--blue);letter-spacing:0.15em;">${initials}</span><br>
+  <strong>Character count:</strong> ${initials.length}`;
+}
+</script>
+</body>
+</html>

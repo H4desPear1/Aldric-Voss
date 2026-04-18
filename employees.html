@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department Directory | Linguistics & Germanic Studies | Ashford University</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744; --navy-mid: #2c3e6b; --gold: #b8972a; --gold-light: #d4af37;
+    --text: #1c1c1c; --text-muted: #555; --text-light: #888;
+    --border: #d8d8d8; --bg: #ffffff; --bg-soft: #f6f7f9; --bg-accent: #eef0f5;
+    --red-notice: #8b1a1a; --red-bg: #fdf2f2; --red-border: #d9a0a0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg-soft); color: var(--text); font-size: 15px; }
+
+  .top-bar { background: var(--navy); padding: 0.5rem 0; font-size: 12px; color: rgba(255,255,255,0.6); }
+  .top-bar-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
+  .top-bar a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 1.5rem; }
+  .top-bar a:hover { color: #fff; }
+
+  header { background: var(--bg); border-bottom: 3px solid var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.5rem; }
+  .university-seal { width: 68px; height: 68px; flex-shrink: 0; }
+  .header-text h1 { font-family: 'Source Serif 4', serif; font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 0.25rem; }
+  .header-text .dept { font-size: 13px; color: var(--text-muted); }
+  .header-text .dept span { color: var(--gold); margin: 0 0.4rem; }
+
+  nav { background: var(--navy); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; }
+  nav a { display: block; padding: 0.85rem 1.3rem; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); text-decoration: none; letter-spacing: 0.02em; border-bottom: 3px solid transparent; transition: all 0.15s; }
+  nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  nav a.active { color: #fff; border-bottom-color: var(--gold-light); }
+
+  .page-header { background: var(--bg); border-bottom: 1px solid var(--border); }
+  .page-header-inner { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 1.5rem; }
+  .breadcrumb { font-size: 12px; color: var(--text-light); margin-bottom: 0.75rem; }
+  .breadcrumb a { color: var(--navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 0.4rem; }
+  .page-header-inner h2 { font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+  .page-header-inner p { font-size: 13.5px; color: var(--text-muted); max-width: 700px; line-height: 1.5; }
+
+  .page-inner { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem; }
+
+  /* NOTICE */
+  .notice { background: var(--red-bg); border: 1px solid var(--red-border); padding: 0.9rem 1.2rem; margin-bottom: 2rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+  .notice p { font-size: 13.5px; color: #5a1a1a; line-height: 1.5; }
+  .notice p strong { font-weight: 600; color: var(--red-notice); }
+
+  /* STAFF GRID */
+  .staff-section { margin-bottom: 2.5rem; }
+  .staff-section-title { font-family: 'Source Serif 4', serif; font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--navy); }
+
+  .staff-card {
+    background: var(--bg); border: 1px solid var(--border);
+    margin-bottom: 1.5rem; overflow: hidden;
+  }
+  .staff-card-top { display: flex; gap: 1.5rem; padding: 1.5rem; align-items: flex-start; border-bottom: 1px solid var(--border); }
+  .staff-avatar { width: 88px; height: 110px; background: linear-gradient(160deg, #c8cdd8 0%, #a0a8b8 100%); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .staff-info h3 { font-family: 'Source Serif 4', serif; font-size: 1.15rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+  .staff-title { font-size: 13px; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.4; }
+  .staff-bio { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.75rem; }
+  .staff-meta { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .staff-meta-item { font-size: 12px; color: var(--text-light); }
+  .staff-meta-item strong { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); display: block; margin-bottom: 0.1rem; }
+  .staff-meta-item a { color: var(--navy); text-decoration: none; }
+  .staff-meta-item a:hover { text-decoration: underline; }
+
+  /* SYMPATHY NOTE SECTION */
+  .sympathy-section { padding: 1.2rem 1.5rem; background: var(--bg-soft); border-top: 1px solid var(--border); }
+  .sympathy-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .sympathy-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .sympathy-note-wrap { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .sympathy-note-img {
+    width: 220px; flex-shrink: 0;
+    background: #fdf8f0;
+    border: 1px solid #d8cdb4;
+    padding: 1.2rem 1.4rem;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.08);
+    position: relative;
+  }
+  .sympathy-note-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(transparent, transparent 24px, rgba(0,0,0,0.04) 24px, rgba(0,0,0,0.04) 25px);
+    pointer-events: none;
+  }
+  .handwritten {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.9;
+    color: #2a1a0a;
+    position: relative;
+    z-index: 1;
+  }
+  .handwritten.eh { font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; font-size: 13.5px; line-height: 1.95; letter-spacing: 0.01em; }
+  .handwritten.mk { font-family: 'Times New Roman', Times, serif; font-size: 12.5px; line-height: 1.85; letter-spacing: -0.01em; }
+  .handwritten.sr { font-family: 'Georgia', serif; font-size: 14px; line-height: 2; letter-spacing: 0.02em; }
+  .handwritten.tw { font-family: 'Courier New', monospace; font-style: normal; font-size: 12px; line-height: 1.8; letter-spacing: 0.03em; }
+  .handwritten.pm { font-family: 'Palatino Linotype', serif; font-size: 12px; line-height: 1.75; letter-spacing: 0.015em; }
+  .handwritten.jf { font-family: 'Times New Roman', serif; font-size: 13px; line-height: 2.0; letter-spacing: 0.005em; }
+
+  .sympathy-note-meta { flex: 1; }
+  .sympathy-note-meta h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+  .sympathy-note-meta p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.5rem; }
+  .note-tag { display: inline-block; font-size: 11px; padding: 0.15rem 0.55rem; background: var(--bg-accent); border: 1px solid var(--border); color: var(--text-muted); border-radius: 2px; margin-right: 0.3rem; }
+
+  .status-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .status-active { background: #e8f2e8; color: #1a5a1a; border: 1px solid #a8cca8; }
+  .status-visiting { background: #e8eef8; color: #1a2a6a; border: 1px solid #a0b0d8; }
+  .status-grad { background: #f5f0e8; color: #5a3a0a; border: 1px solid #d0b880; }
+
+  footer { background: var(--navy); color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 2rem; border-top: 3px solid var(--gold); }
+  .footer-inner { max-width: 1100px; margin: 0 auto; padding: 1.8rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  @media (max-width: 700px) {
+    .staff-card-top { flex-direction: column; }
+    .sympathy-note-wrap { flex-direction: column; }
+    .sympathy-note-img { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <span>Ashford University — Department of Linguistics &amp; Germanic Studies</span>
+    <div><a href="#">A–Z Index</a><a href="#">Library</a><a href="employees.html">Directory</a></div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <svg class="university-seal" viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="34" cy="34" r="32" fill="none" stroke="#1a2744" stroke-width="1.5"/>
+      <circle cx="34" cy="34" r="27" fill="none" stroke="#b8972a" stroke-width="0.75"/>
+      <text x="34" y="30" text-anchor="middle" fill="#1a2744" font-size="15" font-family="Georgia, serif" font-weight="bold">AU</text>
+      <text x="34" y="43" text-anchor="middle" fill="#b8972a" font-size="6.5" font-family="Arial, sans-serif" letter-spacing="1.5">ASHFORD</text>
+      <text x="34" y="53" text-anchor="middle" fill="#b8972a" font-size="5" font-family="Arial, sans-serif" letter-spacing="1.2">UNIVERSITY</text>
+    </svg>
+    <div class="header-text">
+      <h1>Department of Linguistics &amp; Germanic Studies</h1>
+      <div class="dept">Faculty Directory <span>·</span> Ashford University</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html">Home</a>
+    <a href="runes.html">The Codex Noctis</a>
+    <a href="employees.html" class="active">Department Directory</a>
+    <a href="#">Publications</a>
+    <a href="#">Teaching</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span>Department Directory</div>
+    <h2>Department Directory — Linguistics &amp; Germanic Studies</h2>
+    <p>Faculty, research staff, and graduate researchers associated with the Department of Linguistics and the Runic Studies research group at Ashford University.</p>
+  </div>
+</div>
+
+<div class="page-inner">
+
+  <div class="notice">
+    <svg style="width:16px;height:16px;flex-shrink:0;margin-top:2px;color:#8b1a1a;" viewBox="0 0 18 18" fill="none"><path d="M9 2L16.5 15H1.5L9 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="9" y1="8" x2="9" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.75" fill="currentColor"/></svg>
+    <p><strong>Note:</strong> Following the passing of Dr. Aldric Voss, sympathy correspondence submitted to the department has been archived here at the request of departmental administration. Handwritten notes from colleagues appear below each staff profile. Original letters are held in the department office.</p>
+  </div>
+
+  <!-- FACULTY -->
+  <div class="staff-section">
+    <div class="staff-section-title">Faculty — Runic Studies &amp; Germanic Philology</div>
+
+    <!-- ELSA HOLT -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Dr. Elsa Holt</h3>
+            <span class="status-badge status-active">Active</span>
+          </div>
+          <div class="staff-title">Research Associate in Runic Studies · Codex Noctis Project · Harwick Hall 216<br>B.A. Copenhagen, Ph.D. Ashford University, 2017</div>
+          <p class="staff-bio">Dr. Holt's research focuses on the intersection of runology and manuscript studies, with particular attention to fragmentary and recovered texts. She served as Dr. Voss's closest collaborator on the Codex Noctis project since 2020 and is now the primary contact for all research inquiries relating to his estate and ongoing work.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">e.holt@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 216</div>
+            <div class="staff-meta-item"><strong>Phone</strong>+1 (802) 555-0197</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Dr. Elsa Holt</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten eh">
+              To the department —<br><br>
+              Aldric was more than a<br>
+              colleague. He was the<br>
+              reason I stayed in this<br>
+              field. I find it impossible<br>
+              to put into words what<br>
+              we have lost, both as<br>
+              scholars and as friends.<br>
+              His work must not be<br>
+              left unfinished.<br><br>
+              With love,<br>
+              Elsa
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 17</h4>
+            <p>Handwritten on department letterhead. Submitted to Dean's office and forwarded to archive. Dr. Holt has indicated she intends to continue the Codex Noctis project.</p>
+            <span class="note-tag">Handwriting: cursive</span>
+            <span class="note-tag">Ink: blue ballpoint</span>
+            <span class="note-tag">Paper: dept. letterhead</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARCUS KELLER -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Professor Marcus Keller</h3>
+            <span class="status-badge status-active">Active</span>
+          </div>
+          <div class="staff-title">Professor of Germanic Philology · Department Chair · Harwick Hall 201<br>Ph.D. Humboldt-Universität zu Berlin, 1994</div>
+          <p class="staff-bio">Prof. Keller has led the Department of Linguistics for eleven years. His scholarly interests lie in historical morphology and the transmission of Old High German texts. He and Dr. Voss had a collegial relationship spanning two decades, though their methodological approaches sometimes diverged sharply on questions of manuscript authenticity.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">m.keller@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 201</div>
+            <div class="staff-meta-item"><strong>Phone</strong>+1 (802) 555-0140</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Prof. Marcus Keller</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten mk">
+              Aldric Voss gave thirty<br>
+              years to this institution.<br>
+              Whatever disagreements<br>
+              we had over methodology<br>
+              — and there were many —<br>
+              I respected his commitment<br>
+              to the work absolutely.<br>
+              The department is lesser<br>
+              without him.<br><br>
+              M. Keller
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 16</h4>
+            <p>Handwritten on personal stationery. Terse in tone; submitted directly to the archive without accompanying remarks. Prof. Keller has declined press comment.</p>
+            <span class="note-tag">Handwriting: print/block</span>
+            <span class="note-tag">Ink: black fountain pen</span>
+            <span class="note-tag">Paper: personal stationery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGRID RAVN -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Dr. Sigrid Ravn</h3>
+            <span class="status-badge status-visiting">Visiting Scholar</span>
+          </div>
+          <div class="staff-title">Visiting Scholar, Runology · University of Bergen (on secondment) · Harwick Hall 220<br>Ph.D. University of Bergen, 2012</div>
+          <p class="staff-bio">Dr. Ravn joined Ashford on a two-year visiting fellowship to collaborate on the Codex Noctis. Her expertise in Scandinavian epigraphy and stone inscription traditions proved invaluable to the project's comparative analysis. She arrived in Ashford only six months before Dr. Voss's death and has requested an extension of her fellowship to help complete the research.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">s.ravn@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 220</div>
+            <div class="staff-meta-item"><strong>Home Institution</strong>University of Bergen</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Dr. Sigrid Ravn</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten sr">
+              I did not know Aldric<br>
+              long — only these few<br>
+              months — but I have<br>
+              never met a mind so<br>
+              alive to the past.<br>
+              He made the runes<br>
+              feel urgent. I hope<br>
+              we can do justice<br>
+              to what he began.<br><br>
+              Sigrid Ravn<br>
+              Bergen / Ashford
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 18</h4>
+            <p>Handwritten on plain white paper. Note was accompanied by a pressed flower, which has been separately preserved. Dr. Ravn was reportedly one of the last people to see Dr. Voss the week of his death.</p>
+            <span class="note-tag">Handwriting: rounded cursive</span>
+            <span class="note-tag">Ink: dark blue gel pen</span>
+            <span class="note-tag">Paper: unlined white</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GRADUATE RESEARCHERS -->
+  <div class="staff-section">
+    <div class="staff-section-title">Graduate Researchers</div>
+
+    <!-- THOMAS WREN -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Thomas Wren</h3>
+            <span class="status-badge status-grad">PhD Candidate</span>
+          </div>
+          <div class="staff-title">Doctoral Candidate, Germanic Linguistics · Supervised by Dr. Voss · Harwick Hall 108 (shared)<br>B.A. &amp; M.A. University of Exeter</div>
+          <p class="staff-bio">Thomas is in the third year of his doctoral research on phonological irregularities in runic inscription corpora. He worked closely with Dr. Voss as a research assistant on the Codex Noctis, handling digital image processing and preliminary transcription. His thesis supervision has been transferred to Prof. Keller pending further arrangement.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">t.wren@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 108</div>
+            <div class="staff-meta-item"><strong>Supervisor</strong>Prof. M. Keller (acting)</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Thomas Wren</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten tw">
+              Dr. Voss —<br><br>
+              You always said the<br>
+              text would outlast<br>
+              all of us. I hope<br>
+              that's true. I'm going<br>
+              to finish what we<br>
+              started. I promise.<br><br>
+              Tom
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 19</h4>
+            <p>Handwritten on torn notebook paper. Note appears addressed directly to Dr. Voss rather than to the department. Submitted late — Thomas reportedly had difficulty composing it. Notably terse compared to other submissions.</p>
+            <span class="note-tag">Handwriting: print, irregular</span>
+            <span class="note-tag">Ink: pencil</span>
+            <span class="note-tag">Paper: notebook, torn edge</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PETRA MACH -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Petra Mach</h3>
+            <span class="status-badge status-grad">PhD Candidate</span>
+          </div>
+          <div class="staff-title">Doctoral Candidate, Manuscript Studies · Second-year · Harwick Hall 108 (shared)<br>M.A. Charles University, Prague</div>
+          <p class="staff-bio">Petra's doctoral work examines codicological practices in early medieval Central European manuscript production. She joined the Codex Noctis project as a secondary researcher six months ago, contributing expertise on binding and material analysis. She had limited direct contact with Dr. Voss but attended several project seminars.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">p.mach@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 108</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Petra Mach</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten pm">
+              To the department and<br>
+              to Dr. Voss's family —<br><br>
+              I am so very sorry<br>
+              for this loss. Dr. Voss<br>
+              was always generous<br>
+              with his time and<br>
+              knowledge. He will<br>
+              be deeply missed<br>
+              by everyone who<br>
+              had the privilege<br>
+              of knowing him.<br><br>
+              Petra Mach
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 16</h4>
+            <p>Handwritten on cream card stock. Conventional in tone; submitted promptly. Petra's note is the most formally structured of those received.</p>
+            <span class="note-tag">Handwriting: neat cursive</span>
+            <span class="note-tag">Ink: black ballpoint</span>
+            <span class="note-tag">Paper: cream card stock</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ADMINISTRATIVE -->
+  <div class="staff-section">
+    <div class="staff-section-title">Administrative Staff</div>
+
+    <!-- JEAN FOSTER -->
+    <div class="staff-card">
+      <div class="staff-card-top">
+        <div class="staff-avatar">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/><path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/></svg>
+        </div>
+        <div class="staff-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.2rem;">
+            <h3>Jean Foster</h3>
+            <span class="status-badge status-active">Active</span>
+          </div>
+          <div class="staff-title">Departmental Administrator · Harwick Hall 200 (Main Office)<br>Ashford University, 2006–present</div>
+          <p class="staff-bio">Jean has managed the administrative operations of the Department of Linguistics for eighteen years. She maintains scheduling, correspondence, and archival records for all departmental staff. She is the primary point of contact for visitors, press inquiries, and matters relating to Dr. Voss's office and effects.</p>
+          <div class="staff-meta">
+            <div class="staff-meta-item"><strong>Email</strong><a href="#">j.foster@ashford.edu</a></div>
+            <div class="staff-meta-item"><strong>Office</strong>Harwick Hall 200</div>
+            <div class="staff-meta-item"><strong>Phone</strong>+1 (802) 555-0100</div>
+          </div>
+        </div>
+      </div>
+      <div class="sympathy-section">
+        <div class="sympathy-label">Submitted Sympathy Note — Jean Foster</div>
+        <div class="sympathy-note-wrap">
+          <div class="sympathy-note-img">
+            <div class="handwritten jf">
+              Prof. Voss was one of<br>
+              the good ones. Always<br>
+              remembered my name,<br>
+              remembered birthdays,<br>
+              said please and thank<br>
+              you — which, believe<br>
+              me, is not as common<br>
+              as it should be.<br>
+              He will be very much<br>
+              missed in this office.<br><br>
+              — Jean
+            </div>
+          </div>
+          <div class="sympathy-note-meta">
+            <h4>Note submitted: November 15</h4>
+            <p>Handwritten on a departmental sticky note, enlarged onto archival paper by the office. Jean's note was the first received. She has been managing incoming correspondence and visitor requests since the announcement.</p>
+            <span class="note-tag">Handwriting: upright print</span>
+            <span class="note-tag">Ink: red ballpoint</span>
+            <span class="note-tag">Paper: sticky note (transcribed)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>© Ashford University · Department of Linguistics &amp; Germanic Studies<br>Directory last updated November 2024.</div>
+    <div class="footer-links">
+      <a href="#">Accessibility</a>
+      <a href="#">Privacy Policy</a>
+      <a href="index.html">Dr. Voss — Home</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Aldric Voss | Runic Studies & Germanic Philology | Ashford University</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-mid: #2c3e6b;
+    --gold: #b8972a;
+    --gold-light: #d4af37;
+    --text: #1c1c1c;
+    --text-muted: #555;
+    --text-light: #888;
+    --border: #d8d8d8;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --bg-accent: #eef0f5;
+    --red-notice: #8b1a1a;
+    --red-bg: #fdf2f2;
+    --red-border: #d9a0a0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg-soft); color: var(--text); font-size: 15px; }
+
+  .top-bar { background: var(--navy); padding: 0.5rem 0; font-size: 12px; color: rgba(255,255,255,0.6); }
+  .top-bar-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .top-bar a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 1.5rem; }
+  .top-bar a:hover { color: #fff; }
+
+  header { background: var(--bg); border-bottom: 3px solid var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.5rem; }
+  .university-seal { width: 68px; height: 68px; flex-shrink: 0; }
+  .header-text h1 { font-family: 'Source Serif 4', serif; font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 0.25rem; }
+  .header-text .dept { font-size: 13px; color: var(--text-muted); }
+  .header-text .dept span { color: var(--gold); margin: 0 0.4rem; }
+
+  nav { background: var(--navy); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; }
+  nav a { display: block; padding: 0.85rem 1.3rem; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); text-decoration: none; letter-spacing: 0.02em; border-bottom: 3px solid transparent; transition: all 0.15s; }
+  nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  nav a.active { color: #fff; border-bottom-color: var(--gold-light); }
+
+  .notice { background: var(--red-bg); border-top: 1px solid var(--red-border); border-bottom: 1px solid var(--red-border); }
+  .notice-inner { max-width: 1100px; margin: 0 auto; padding: 0.9rem 2rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+  .notice-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; color: var(--red-notice); }
+  .notice p { font-size: 13.5px; color: #5a1a1a; line-height: 1.5; }
+  .notice p strong { font-weight: 600; color: var(--red-notice); }
+  .notice a { color: #5a1a1a; font-weight: 500; }
+
+  .page-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; display: grid; grid-template-columns: 1fr 310px; gap: 2.5rem; align-items: start; }
+
+  .profile-block { display: flex; gap: 1.8rem; align-items: flex-start; background: var(--bg); border: 1px solid var(--border); padding: 2rem; margin-bottom: 2rem; border-top: 4px solid var(--navy); }
+  .profile-photo { width: 120px; height: 150px; flex-shrink: 0; background: linear-gradient(160deg, #c8cdd8 0%, #a0a8b8 100%); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+  .profile-photo-caption { font-size: 11px; color: var(--text-light); text-align: center; margin-top: 0.4rem; font-style: italic; }
+  .profile-info h2 { font-family: 'Source Serif 4', serif; font-size: 1.5rem; font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
+  .profile-title { font-size: 13.5px; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+  .profile-bio { font-family: 'Source Serif 4', serif; font-size: 1rem; line-height: 1.75; color: var(--text); margin-bottom: 1rem; }
+  .profile-meta { display: flex; flex-wrap: wrap; gap: 1.2rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .meta-item { font-size: 13px; color: var(--text-muted); }
+  .meta-item strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 0.15rem; }
+  .meta-item a { color: var(--navy); text-decoration: none; }
+  .meta-item a:hover { text-decoration: underline; }
+
+  .content-section { background: var(--bg); border: 1px solid var(--border); padding: 1.8rem 2rem; margin-bottom: 2rem; }
+  .section-title { font-family: 'Source Serif 4', serif; font-size: 1.15rem; font-weight: 600; color: var(--navy); margin-bottom: 1.2rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
+
+  .research-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .research-item { padding: 1rem 1.1rem; background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--navy); }
+  .research-item h4 { font-size: 13.5px; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+  .research-item p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  .pub-list { list-style: none; }
+  .pub-list li { padding: 0.9rem 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 52px 1fr; gap: 1rem; align-items: start; }
+  .pub-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .pub-year { font-size: 12px; color: var(--gold); font-weight: 600; padding-top: 0.15rem; }
+  .pub-title { font-family: 'Source Serif 4', serif; font-size: 0.97rem; font-style: italic; color: var(--text); margin-bottom: 0.15rem; line-height: 1.4; }
+  .pub-journal { font-size: 12.5px; color: var(--text-muted); }
+  .pub-journal em { font-style: normal; font-weight: 500; }
+
+  .book-highlight { background: var(--navy); color: rgba(255,255,255,0.9); padding: 1.8rem 2rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .book-cover { width: 80px; height: 108px; flex-shrink: 0; background: #2a3a60; border: 1px solid rgba(212,175,55,0.4); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
+  .book-cover-rune { font-size: 1.6rem; color: var(--gold-light); opacity: 0.8; }
+  .book-info h3 { font-family: 'Source Serif 4', serif; font-size: 1.1rem; font-weight: 600; color: var(--gold-light); margin-bottom: 0.3rem; }
+  .book-info .author { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 0.8rem; }
+  .book-info p { font-size: 13.5px; line-height: 1.6; color: rgba(255,255,255,0.75); margin-bottom: 1rem; }
+  .btn-view { display: inline-block; font-size: 12.5px; font-weight: 500; background: var(--gold-light); color: var(--navy); padding: 0.55rem 1.2rem; text-decoration: none; transition: background 0.15s; }
+  .btn-view:hover { background: #e8c44a; }
+
+  .sidebar-card { background: var(--bg); border: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .sidebar-card-header { background: var(--bg-accent); padding: 0.7rem 1.1rem; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy); border-bottom: 1px solid var(--border); }
+  .sidebar-card-body { padding: 1.1rem; }
+
+  .contact-list { list-style: none; }
+  .contact-list li { font-size: 13px; color: var(--text-muted); padding: 0.45rem 0; border-bottom: 1px solid var(--border); }
+  .contact-list li:last-child { border-bottom: none; }
+  .contact-list .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); display: block; margin-bottom: 0.1rem; }
+  .contact-list a { color: var(--navy); text-decoration: none; }
+  .contact-list a:hover { text-decoration: underline; }
+
+  .news-list { list-style: none; }
+  .news-list li { padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .news-list li:last-child { border-bottom: none; }
+  .news-date { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem; }
+  .news-list a { color: var(--navy); text-decoration: none; line-height: 1.45; display: block; }
+  .news-list a:hover { text-decoration: underline; }
+
+  .colleague-list { list-style: none; }
+  .colleague-list li { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+  .colleague-list li:last-child { border-bottom: none; }
+  .colleague-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-accent); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--navy); flex-shrink: 0; }
+  .colleague-name { font-size: 13px; font-weight: 500; color: var(--text); display: block; }
+  .colleague-role { font-size: 12px; color: var(--text-light); display: block; }
+  .colleague-list a { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.75rem; width: 100%; }
+  .colleague-list a:hover .colleague-name { color: var(--navy); text-decoration: underline; }
+
+  .status-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .status-deceased { background: #f5e8e8; color: var(--red-notice); border: 1px solid var(--red-border); }
+
+  footer { background: var(--navy); color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 1rem; border-top: 3px solid var(--gold); }
+  .footer-inner { max-width: 1100px; margin: 0 auto; padding: 1.8rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  @media (max-width: 800px) {
+    .page-inner { grid-template-columns: 1fr; }
+    .profile-block { flex-direction: column; }
+    .research-grid { grid-template-columns: 1fr; }
+    .book-highlight { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <span>Ashford University — Department of Linguistics &amp; Germanic Studies</span>
+    <div>
+      <a href="#">A–Z Index</a>
+      <a href="#">Library</a>
+      <a href="employees.html">Directory</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <svg class="university-seal" viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="34" cy="34" r="32" fill="none" stroke="#1a2744" stroke-width="1.5"/>
+      <circle cx="34" cy="34" r="27" fill="none" stroke="#b8972a" stroke-width="0.75"/>
+      <text x="34" y="30" text-anchor="middle" fill="#1a2744" font-size="15" font-family="Georgia, serif" font-weight="bold">AU</text>
+      <text x="34" y="43" text-anchor="middle" fill="#b8972a" font-size="6.5" font-family="Arial, sans-serif" letter-spacing="1.5">ASHFORD</text>
+      <text x="34" y="53" text-anchor="middle" fill="#b8972a" font-size="5" font-family="Arial, sans-serif" letter-spacing="1.2">UNIVERSITY</text>
+    </svg>
+    <div class="header-text">
+      <h1>Dr. Aldric Voss</h1>
+      <div class="dept">
+        Professor of Germanic Philology &amp; Runic Studies
+        <span>·</span>
+        Department of Linguistics
+        <span>·</span>
+        Ashford University
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="active">Home</a>
+    <a href="runes.html">The Codex Noctis</a>
+    <a href="employees.html">Department Directory</a>
+    <a href="#">Publications</a>
+    <a href="#">Teaching</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<div class="notice">
+  <div class="notice-inner">
+    <svg class="notice-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2L16.5 15H1.5L9 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="9" y1="8" x2="9" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="9" cy="13.5" r="0.75" fill="currentColor"/>
+    </svg>
+    <p><strong>Notice Regarding Dr. Voss:</strong> It is with profound sadness that the Department of Linguistics announces the passing of Dr. Aldric Voss on November 14th. His research materials are currently under departmental review. This website is maintained as a record of his scholarly contributions. If you have information relevant to his final research period, please contact <a href="mailto:dept.linguistics@ashford.edu">dept.linguistics@ashford.edu</a> or speak with a member of his team via the <a href="employees.html">Department Directory</a>.</p>
+  </div>
+</div>
+
+<div class="page-inner">
+  <main>
+
+    <div class="profile-block">
+      <div>
+        <div class="profile-photo">
+          <svg width="52" height="52" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="22" r="12" stroke="#8090a8" stroke-width="1.5"/>
+            <path d="M8 54c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#8090a8" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="profile-photo-caption">Photo on file</div>
+      </div>
+      <div class="profile-info">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.25rem;">
+          <h2>Dr. Aldric Voss</h2>
+          <span class="status-badge status-deceased">Deceased</span>
+        </div>
+        <div class="profile-title">
+          Professor of Germanic Philology &amp; Runic Studies · Ashford University<br>
+          Senior Fellow, Institute for Elder Script Research · Lead Investigator, Codex Noctis Project (2019–2024)
+        </div>
+        <p class="profile-bio">
+          Dr. Aldric Voss was one of the foremost authorities on Elder Futhark and transitional runic systems, with a specialization in manuscript tradition and cryptographic inscription practices across early medieval Northern Europe. His work bridged philological analysis with material culture, challenging long-held assumptions about literacy and symbolic encoding in pre-Christian Germanic societies.
+        </p>
+        <p class="profile-bio">
+          His final project — the study and partial decipherment of the <em>Codex Noctis</em>, an anonymous runic manuscript of unknown provenance — was ongoing at the time of his death and represents perhaps his most significant scholarly contribution.
+        </p>
+        <div class="profile-meta">
+          <div class="meta-item"><strong>Office</strong>Harwick Hall 214</div>
+          <div class="meta-item"><strong>Email</strong><a href="#">a.voss@ashford.edu</a></div>
+          <div class="meta-item"><strong>Phone</strong>+1 (802) 555-0183</div>
+          <div class="meta-item"><strong>ORCID</strong><a href="#">0000-0002-4471-8832</a></div>
+          <div class="meta-item"><strong>Ph.D.</strong>Uppsala University, 1998</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-highlight">
+      <div class="book-cover">
+        <div class="book-cover-rune">ᚱ</div>
+        <div style="font-size:7px;color:rgba(212,175,55,0.5);letter-spacing:1px;text-transform:uppercase;text-align:center;">Codex</div>
+      </div>
+      <div class="book-info">
+        <h3>The Codex Noctis — Active Research Project</h3>
+        <div class="author">Lead Investigator: Dr. Aldric Voss &nbsp;·&nbsp; Research ongoing at time of death</div>
+        <p>A complete philological study and contextual analysis of the <em>Codex Noctis</em>, a recovered runic manuscript of disputed origin (est. 9th–11th c.). The project includes full transcription, high-resolution image documentation, and proposed decipherment of three densely inscribed pages whose cipher system remains only partially understood.</p>
+        <a href="runes.html" class="btn-view">View Manuscript &amp; Research Notes →</a>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-title">Research Areas</div>
+      <div class="research-grid">
+        <div class="research-item">
+          <h4>Runic Manuscript Tradition</h4>
+          <p>Inscription practices, textual transmission, and the materiality of runic literacy across Germanic cultures.</p>
+        </div>
+        <div class="research-item">
+          <h4>Cryptographic Epigraphy</h4>
+          <p>Encoded and concealed inscriptions: cipher systems, intentional ambiguity, and restricted knowledge in early medieval texts.</p>
+        </div>
+        <div class="research-item">
+          <h4>Elder Futhark &amp; Transitional Scripts</h4>
+          <p>Phonological and morphological analysis of pre-Viking and transitional runic inventories in Scandinavia and the Continent.</p>
+        </div>
+        <div class="research-item">
+          <h4>Provenance &amp; Forgery Detection</h4>
+          <p>Material and paleographic methods for authenticating runic artifacts, with case studies in contested 19th-century finds.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-title">Selected Publications</div>
+      <ul class="pub-list">
+        <li>
+          <div class="pub-year">2022</div>
+          <div>
+            <div class="pub-title">Concealed Meaning in Transitional Runic Inscriptions: A Survey of Cipher Techniques, 700–1100 CE</div>
+            <div class="pub-journal"><em>Journal of Germanic Linguistics</em> · Vol. 34, No. 2 · pp. 118–162</div>
+          </div>
+        </li>
+        <li>
+          <div class="pub-year">2020</div>
+          <div>
+            <div class="pub-title">The Nørtholm Stones Reconsidered: Authentication, Provenance, and the Question of Deliberate Forgery</div>
+            <div class="pub-journal"><em>Scandinavian Studies</em> · Vol. 92, No. 4 · pp. 391–429</div>
+          </div>
+        </li>
+        <li>
+          <div class="pub-year">2018</div>
+          <div>
+            <div class="pub-title">Reading Between the Lines: Interlinear Encoding Practices in the Elder Futhark Corpus</div>
+            <div class="pub-journal"><em>Runes &amp; Their Secrets</em> (ed. Stoklund et al.) · Museum Tusculanum Press</div>
+          </div>
+        </li>
+        <li>
+          <div class="pub-year">2015</div>
+          <div>
+            <div class="pub-title">Bound Script: The Sociopolitics of Runic Literacy in Early Medieval Scandinavia</div>
+            <div class="pub-journal">Ashford University Press · ISBN 978-0-8166-9211-4</div>
+          </div>
+        </li>
+        <li>
+          <div class="pub-year">2011</div>
+          <div>
+            <div class="pub-title">On the Vocalism of Certain Anomalous Inscriptions from the Weser-Rhine Region</div>
+            <div class="pub-journal"><em>Beiträge zur Geschichte der deutschen Sprache und Literatur</em> · Vol. 133, No. 1 · pp. 1–38</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <aside>
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">Contact &amp; Office</div>
+      <div class="sidebar-card-body">
+        <ul class="contact-list">
+          <li><div><span class="label">Office</span>Harwick Hall, Room 214, Ashford University</div></li>
+          <li><div><span class="label">Email</span><a href="#">a.voss@ashford.edu</a></div></li>
+          <li><div><span class="label">Phone</span>+1 (802) 555-0183</div></li>
+          <li><div><span class="label">Office Hours</span>Tues &amp; Thurs 2–4 pm<br><em style="font-size:12px;color:#a00">Suspended — see department notice</em></div></li>
+          <li><div><span class="label">Department</span><a href="employees.html">Linguistics &amp; Germanic Studies →</a></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">Department News</div>
+      <div class="sidebar-card-body">
+        <ul class="news-list">
+          <li>
+            <span class="news-date">Nov 18</span>
+            <a href="#">Memorial statement from the Dean of Faculty regarding Dr. Voss</a>
+          </li>
+          <li>
+            <span class="news-date">Nov 15</span>
+            <a href="#">Codex Noctis research files placed under departmental review</a>
+          </li>
+          <li>
+            <span class="news-date">Oct 28</span>
+            <a href="#">Dr. Voss presents interim findings on Codex Noctis at the Nordic Philology Symposium, Oslo</a>
+          </li>
+          <li>
+            <span class="news-date">Sep 3</span>
+            <a href="#">Graduate applications open for Runic Studies specialization (2025–26)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">Research Team</div>
+      <div class="sidebar-card-body">
+        <ul class="colleague-list">
+          <li>
+            <a href="employees.html">
+              <div class="colleague-avatar">EH</div>
+              <div><span class="colleague-name">Dr. Elsa Holt</span><span class="colleague-role">Research Associate</span></div>
+            </a>
+          </li>
+          <li>
+            <a href="employees.html">
+              <div class="colleague-avatar">MK</div>
+              <div><span class="colleague-name">Prof. Marcus Keller</span><span class="colleague-role">Germanic Philology</span></div>
+            </a>
+          </li>
+          <li>
+            <a href="employees.html">
+              <div class="colleague-avatar">SR</div>
+              <div><span class="colleague-name">Dr. Sigrid Ravn</span><span class="colleague-role">Visiting Scholar</span></div>
+            </a>
+          </li>
+          <li>
+            <a href="employees.html">
+              <div class="colleague-avatar">TW</div>
+              <div><span class="colleague-name">Thomas Wren</span><span class="colleague-role">PhD Candidate</span></div>
+            </a>
+          </li>
+        </ul>
+        <div style="margin-top:0.9rem;padding-top:0.9rem;border-top:1px solid var(--border);">
+          <a href="employees.html" style="font-size:13px;color:var(--navy);text-decoration:none;font-weight:500;">Full Department Directory →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">Affiliations</div>
+      <div class="sidebar-card-body" style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+        <div style="padding:0.4rem 0;border-bottom:1px solid var(--border);">Institute for Elder Script Research (IESR)</div>
+        <div style="padding:0.4rem 0;border-bottom:1px solid var(--border);">Runic Text Archive Consortium (RTAC)</div>
+        <div style="padding:0.4rem 0;border-bottom:1px solid var(--border);">Nordic Philology Society</div>
+        <div style="padding:0.4rem 0;">Society for Germanic Linguistics</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>© Ashford University · Department of Linguistics &amp; Germanic Studies<br>This page last updated November 2024. Site maintained by department staff.</div>
+    <div class="footer-links">
+      <a href="#">Accessibility</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Site Map</a>
+      <a href="employees.html">Directory</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

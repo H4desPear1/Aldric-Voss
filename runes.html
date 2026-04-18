@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Codex Noctis | Runic Studies | Ashford University</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744; --navy-mid: #2c3e6b; --gold: #b8972a; --gold-light: #d4af37;
+    --text: #1c1c1c; --text-muted: #555; --text-light: #888;
+    --border: #d8d8d8; --bg: #ffffff; --bg-soft: #f6f7f9; --bg-accent: #eef0f5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg-soft); color: var(--text); font-size: 15px; }
+
+  .top-bar { background: var(--navy); padding: 0.5rem 0; font-size: 12px; color: rgba(255,255,255,0.6); }
+  .top-bar-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; }
+  .top-bar a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 1.5rem; }
+  .top-bar a:hover { color: #fff; }
+
+  header { background: var(--bg); border-bottom: 3px solid var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.5rem; }
+  .university-seal { width: 68px; height: 68px; flex-shrink: 0; }
+  .header-text h1 { font-family: 'Source Serif 4', serif; font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 0.25rem; }
+  .header-text .dept { font-size: 13px; color: var(--text-muted); }
+  .header-text .dept span { color: var(--gold); margin: 0 0.4rem; }
+
+  nav { background: var(--navy); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; }
+  nav a { display: block; padding: 0.85rem 1.3rem; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); text-decoration: none; letter-spacing: 0.02em; border-bottom: 3px solid transparent; transition: all 0.15s; }
+  nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  nav a.active { color: #fff; border-bottom-color: var(--gold-light); }
+
+  .page-header { background: var(--bg); border-bottom: 1px solid var(--border); }
+  .page-header-inner { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 1.5rem; }
+  .breadcrumb { font-size: 12px; color: var(--text-light); margin-bottom: 0.75rem; }
+  .breadcrumb a { color: var(--navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 0.4rem; }
+  .page-header-inner h2 { font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+
+  .page-inner { max-width: 1100px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 1fr 280px; gap: 2.5rem; align-items: start; }
+
+  /* TOC SIDEBAR */
+  .toc-card { background: var(--bg); border: 1px solid var(--border); position: sticky; top: 1.5rem; }
+  .toc-header { background: var(--bg-accent); padding: 0.7rem 1.1rem; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy); border-bottom: 1px solid var(--border); }
+  .toc-body { padding: 0.8rem 0; }
+  .toc-item { display: block; padding: 0.5rem 1.1rem; font-size: 13px; color: var(--text-muted); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; }
+  .toc-item:hover { color: var(--navy); background: var(--bg-soft); border-left-color: var(--navy); }
+  .toc-item.section-head { font-weight: 600; color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; padding-top: 0.8rem; }
+  .toc-item.sub { padding-left: 1.8rem; }
+
+  .info-card { background: var(--bg); border: 1px solid var(--border); margin-top: 1.5rem; }
+  .info-header { background: var(--bg-accent); padding: 0.7rem 1.1rem; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy); border-bottom: 1px solid var(--border); }
+  .info-body { padding: 1rem 1.1rem; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .info-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid var(--border); }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); }
+  .info-value { font-size: 13px; color: var(--text); text-align: right; }
+
+  /* MAIN CONTENT */
+  .content-section { background: var(--bg); border: 1px solid var(--border); padding: 2rem; margin-bottom: 2rem; }
+  .section-title { font-family: 'Source Serif 4', serif; font-size: 1.2rem; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; }
+  .section-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .prose { font-family: 'Source Serif 4', serif; font-size: 1rem; line-height: 1.8; color: var(--text); margin-bottom: 1rem; }
+  .prose em { font-style: italic; }
+
+  /* IMAGE PLACEHOLDER */
+  .manuscript-image-wrap {
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+  .manuscript-image-label {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .manuscript-image-placeholder {
+    background: #e8e4dc;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #888;
+    font-size: 13px;
+  }
+  .manuscript-image-placeholder .img-icon { font-size: 2.5rem; opacity: 0.3; }
+  .manuscript-image-caption { padding: 0.6rem 1rem; font-size: 12px; font-style: italic; color: var(--text-muted); border-top: 1px solid var(--border); background: var(--bg-soft); }
+
+  /* RUNE PAGES */
+  .rune-page {
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    background: var(--bg);
+  }
+  .rune-page-header {
+    background: var(--navy);
+    color: rgba(255,255,255,0.9);
+    padding: 0.75rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rune-page-header h4 { font-size: 13.5px; font-weight: 600; }
+  .rune-page-header span { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .rune-page-body { padding: 1.5rem; }
+  .rune-line {
+    font-size: 1.6rem;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    line-height: 2;
+    font-family: 'Source Serif 4', serif;
+    margin-bottom: 0.25rem;
+  }
+  .rune-line.spaced { letter-spacing: 0.3em; }
+  .rune-divider { border: none; border-top: 1px dashed var(--border); margin: 0.75rem 0; }
+  .rune-note {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: #fffbf0;
+    border: 1px solid #e8d890;
+    border-left: 3px solid var(--gold);
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .rune-note strong { color: var(--text); font-weight: 600; }
+  .rune-page-footer {
+    border-top: 1px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-soft);
+    font-size: 12px;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* STATUS TAG */
+  .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 0.15rem 0.55rem; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tag-partial { background: #fff3e0; color: #7a4200; border: 1px solid #f0c060; }
+  .tag-undeciphered { background: #fdecea; color: #8b1a1a; border: 1px solid #e0a0a0; }
+  .tag-transcribed { background: #e8f2e8; color: #1a5a1a; border: 1px solid #a0c8a0; }
+
+  footer { background: var(--navy); color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 1rem; border-top: 3px solid var(--gold); }
+  .footer-inner { max-width: 1100px; margin: 0 auto; padding: 1.8rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  @media (max-width: 800px) {
+    .page-inner { grid-template-columns: 1fr; }
+    .toc-card { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <span>Ashford University — Department of Linguistics &amp; Germanic Studies</span>
+    <div><a href="#">A–Z Index</a><a href="#">Library</a><a href="employees.html">Directory</a></div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <svg class="university-seal" viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="34" cy="34" r="32" fill="none" stroke="#1a2744" stroke-width="1.5"/>
+      <circle cx="34" cy="34" r="27" fill="none" stroke="#b8972a" stroke-width="0.75"/>
+      <text x="34" y="30" text-anchor="middle" fill="#1a2744" font-size="15" font-family="Georgia, serif" font-weight="bold">AU</text>
+      <text x="34" y="43" text-anchor="middle" fill="#b8972a" font-size="6.5" font-family="Arial, sans-serif" letter-spacing="1.5">ASHFORD</text>
+      <text x="34" y="53" text-anchor="middle" fill="#b8972a" font-size="5" font-family="Arial, sans-serif" letter-spacing="1.2">UNIVERSITY</text>
+    </svg>
+    <div class="header-text">
+      <h1>The Codex Noctis — Research Project</h1>
+      <div class="dept">Dr. Aldric Voss <span>·</span> Runic Studies <span>·</span> Ashford University</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html">Home</a>
+    <a href="runes.html" class="active">The Codex Noctis</a>
+    <a href="employees.html">Department Directory</a>
+    <a href="#">Publications</a>
+    <a href="#">Teaching</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Dr. Aldric Voss</a><span>›</span>The Codex Noctis</div>
+    <h2>The Codex Noctis</h2>
+    <div style="font-size:13.5px;color:var(--text-muted);margin-top:0.3rem;">Manuscript documentation, transcription, and research notes — Voss Runic Studies Project, 2019–2024</div>
+  </div>
+</div>
+
+<div class="page-inner">
+  <main>
+
+    <!-- OVERVIEW -->
+    <div class="content-section" id="overview">
+      <div class="section-title">Project Overview</div>
+      <div class="section-subtitle">Codex Noctis Study · Lead Investigator: Dr. Aldric Voss · Status: Ongoing at time of death</div>
+
+      <p class="prose">The <em>Codex Noctis</em> (provisional title, assigned by Voss, 2019) is an anonymous manuscript of disputed provenance, believed to date to the 9th–11th century CE based on preliminary material analysis. The codex consists of a cover illustration and three pages of dense runic inscription using a script system that combines recognizable Elder Futhark characters with a series of glyphs whose phonological values remain contested.</p>
+      <p class="prose">The manuscript came to Ashford University through an estate donation in 2018 and was assigned to Dr. Voss for formal study in early 2019. His research aimed to produce the first complete transcription and contextual analysis of the text. At the time of his death, all three inscription pages had been transcribed but only partially deciphered.</p>
+      <p class="prose">This page presents the manuscript documentation in full, including the cover image and all three pages of runic text, along with Dr. Voss's working research notes.</p>
+
+      <div style="background:var(--bg-soft);border:1px solid var(--border);padding:1rem 1.2rem;margin-top:1.5rem;display:flex;gap:2rem;flex-wrap:wrap;">
+        <div style="font-size:13px;"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-light);display:block;margin-bottom:0.2rem;">Manuscript Date</span>Est. 9th–11th c. CE</div>
+        <div style="font-size:13px;"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-light);display:block;margin-bottom:0.2rem;">Script System</span>Elder Futhark + unknown cipher</div>
+        <div style="font-size:13px;"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-light);display:block;margin-bottom:0.2rem;">Pages</span>Cover image + 3 inscription pages</div>
+        <div style="font-size:13px;"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-light);display:block;margin-bottom:0.2rem;">Status</span>Transcribed; partially deciphered</div>
+        <div style="font-size:13px;"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-light);display:block;margin-bottom:0.2rem;">Location</span>Ashford University Special Collections</div>
+      </div>
+    </div>
+
+    <!-- COVER IMAGE -->
+    <div class="content-section" id="cover">
+      <div class="section-title">Cover Illustration</div>
+      <div class="section-subtitle">Folio 1r — Pigment on vellum · Undated · High-resolution scan</div>
+
+      <p class="prose">The codex opens with a full-page illustration executed in mineral pigments on stretched vellum. The image depicts a complex symbolic composition that Voss described in his notes as a "cosmological diagram of unusual density." It appears to serve as a key or orientation device for the inscriptions that follow, though the precise relationship between image and text has not been established.</p>
+
+      <div class="manuscript-image-wrap">
+        <div class="manuscript-image-label">
+          <span>Codex Noctis — Folio 1r (Cover Illustration) · High-resolution scan</span>
+          <span>Replace with actual image</span>
+        </div>
+        <div class="manuscript-image-placeholder">
+          <div class="img-icon">⬜</div>
+          <div style="font-weight:500;color:#666;">[ Manuscript Cover Image ]</div>
+          <div>Replace this block with &lt;img src="codex-cover.jpg" alt="..."&gt;</div>
+        </div>
+        <div class="manuscript-image-caption">Fig. 1 — Codex Noctis, Folio 1r. Cover illustration. Estimated dimensions: 21 × 29 cm. Ashford University Special Collections, MS-2018-014.</div>
+      </div>
+
+      <p class="prose">Notable features include a central circular motif enclosing a tripartite division, flanked by two upright figural forms. The border contains repeating decorative elements that, on close inspection, incorporate isolated runic characters not found in the main inscription pages. Voss's note in the margin of his working copy reads: <em>"The image is not decorative. It is instructional."</em></p>
+    </div>
+
+    <!-- PAGE 1 -->
+    <div class="content-section" id="page1">
+      <div class="section-title">Page 1 — First Inscription <span class="tag tag-partial" style="font-size:11px;vertical-align:middle;margin-left:0.5rem;">Partially Deciphered</span></div>
+      <div class="section-subtitle">Folio 2r · 14 lines · Elder Futhark base with substitution cipher elements</div>
+
+      <p class="prose">The first inscription page presents fourteen lines of runic text in a regular horizontal layout. Voss identified this page as the most structurally conventional of the three, with the highest proportion of recognizable Elder Futhark characters. His working hypothesis was that this page functions as an introduction or invocation and may contain proper names or place references.</p>
+
+      <div class="rune-page" id="rune-p1">
+        <div class="rune-page-header">
+          <h4>Codex Noctis — Folio 2r (Page 1 Transcription)</h4>
+          <span>Transcribed by Dr. Voss, 2021</span>
+        </div>
+        <div class="rune-page-body">
+          <div class="rune-line">ᚠᚢᚦᚨᚱᚲ · ᚾᛁᚻᛏ · ᛊᚨᚷᚨᚾ</div>
+          <div class="rune-line">ᛁᚾ · ᛞᚨᚱᚲ · ᛚᛁᛖᚷᛏ · ᛞᛁᛖ · ᚹᚨᚺᚱᚺᛖᛁᛏ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᛞᚱᛖᛁ · ᛏᛟᚱᛖ · ᛞᚱᛖᛁ · ᛊᚲᛚᛟᛊᛊᛖᚾ</div>
+          <div class="rune-line">ᛊᛏᛖᛁᚾ · ᚢᚾᛞ · ᚱᚢᚾᛖ · ᚢᚾᛞ · ᛒᛚᚢᛏ</div>
+          <div class="rune-line">ᛞᛖᚱ · ᛊᛚᚢᛊᛊᛖᛚ · ᚺᚨᛏ · ᛞᚱᛖᛁ · ᛉᛁᚾᚾᛖ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᚾᚢᚱ · ᛞᚢᚱᚲᚺ · ᛞᚨᛊ · ᛖᚱᛊᛏᛖ · ᚷᛖᚺᛏ</div>
+          <div class="rune-line">ᛊᛁᛚᛒᛖᚱ · ᛞᛁᛖ · ᛖᚱᛞᛖ · ᚹᛁᚱᛞ · ᚷᛖᛟᚠᚠᚾᛖᛏ</div>
+          <div class="rune-line">ᚢᚾᛞ · ᛞᛁᛖ · ᚷᛖᛊᛏᛁᚱᚾᛖ · ᛒᛖᚷᛁᚾᚾᛖᚾ · ᛏᛟ · ᛊᛁᚾᚷᛖᚾ</div>
+          <hr class="rune-divider">
+          <div class="rune-line spaced">ᚦ · ᚨ · ᚱ · ᛊ · ᚲ · ᚢ · ᛖ · ᚾ · ᛊ</div>
+          <div class="rune-line">ᛖᚱ · ᛊᚢᚲᚺᛏ · ᛞᛖᚾ · ᛊᚲᚺᛚᛟᛊᛊᛖᛚ</div>
+          <div class="rune-line">ᛊᛖᛁᚾ · ᛞᚢᚱᚲᚺᚷᚨᚾᚷ · ᛁᛊᛏ · ᛞᚨᛊ · ᛖᚱᛊᛏᛖ · ᚹᛟᚱᛏ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᛊᛈᚱᛖᚲᚺ · ᛞᛖᚾ · ᚾᚨᛗᛖᚾ</div>
+          <div class="rune-line">ᛊᛈᚱᛖᚲᚺ · ᛁᚺᚾ · ᛚᚨᚢᛏ</div>
+          <div class="rune-line">ᛞᛖᚱ · ᛊᚲᚺᛚᛟᛊᛊᛖᛚ · ᚹᛁᚱᛞ · ᛖᚾᛏᛊᚲᚺᛟᛊᛊᛖᚾ</div>
+          <div class="rune-note">
+            <strong>Voss research note (2022):</strong> "The spacing in line 9 is deliberate — I've verified it against the original. These are individual characters, not a word. The sequence ᚦᚨᚱᛊᚲᚢᛖᚾᛊ does not correspond to any known lemma. Possible acrostic, possible positional cipher. The final three lines have a liturgical or incantatory quality — 'speak the name / speak it aloud / the lock will open.' This is instructional text."
+          </div>
+        </div>
+        <div class="rune-page-footer">
+          <span>Folio 2r · 14 lines transcribed</span>
+          <span>Last annotated by Voss: October 2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="content-section" id="page2">
+      <div class="section-title">Page 2 — Second Inscription <span class="tag tag-undeciphered" style="font-size:11px;vertical-align:middle;margin-left:0.5rem;">Undeciphered</span></div>
+      <div class="section-subtitle">Folio 2v · 12 lines + marginal annotations · Mixed cipher system</div>
+
+      <p class="prose">The second inscription page is the most complex of the three. It introduces a cipher layer that Voss could not reconcile with any known historical system. A series of small marginal annotations in a different hand suggest the codex may have had more than one author, or that it was used and amended by subsequent readers. Voss was particularly troubled by the marginal marks, which appear to function as correction notations.</p>
+
+      <div class="rune-page" id="rune-p2">
+        <div class="rune-page-header">
+          <h4>Codex Noctis — Folio 2v (Page 2 Transcription)</h4>
+          <span>Transcribed by Dr. Voss, 2022</span>
+        </div>
+        <div class="rune-page-body">
+          <div class="rune-line">ᛜ · ᛡ · ᚣ · ᛠ · ᛟ · ᛝ · ᚸ · ᛢ · ᛣ</div>
+          <div class="rune-note" style="margin-top:0.5rem;margin-bottom:0.75rem;">
+            <strong>Voss note:</strong> "Line 1 uses exclusively cipher glyphs — none of these map to standard Elder Futhark values in my current key. This is the wall. Everything after this line seems to require line 1 as a substitution key."
+          </div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᛟᚾ · ᛞᛖᚱ · ᚨᚾᛞᛖᚱᛖᚾ · ᛊᛖᛁᛏᛖ · ᛞᛖᛊ · ᛊᛈᛁᛖᚷᛖᛚᛊ</div>
+          <div class="rune-line">ᛚᛁᛖᚷᛏ · ᛞᚨᛊ · ᚹᚨᚺᚱᛖ · ᚷᛖᛊᛁᚲᚺᛏ</div>
+          <div class="rune-line">ᛞᚢ · ᛊᛁᛖᚺᛊᛏ · ᚾᚢᚱ · ᛞᛖᛁᚾ · ᛊᛈᛁᛖᚷᛖᛚᛒᛁᛚᛞ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᚢ · ᛗ · ᚲ · ᛖ · ᚺ · ᚱ · ᛏ · ᛖ · ᚾ</div>
+          <div class="rune-line">ᛁᚾ · ᛞᚨᛊ · ᛊᛈᛁᛖᚷᛖᛚ · ᛒᛚᛁᚲᚲᛖ · ᚾᛁᛖ</div>
+          <div class="rune-line">ᛊᛟᚾᛊᛏ · ᚹᛁᚱᛞ · ᛞᛖᚱ · ᛊᛈᛁᛖᚷᛖᛚ · ᛉᚢᚱ · ᚠᚨᛚᛚᛖ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᚦᚱᛖᛁ · ᚾᚨᛗᛖᚾ · ᛒᛁᚱᚷᛏ · ᛞᛁᛖ · ᚹᚨᚺᚱᚺᛖᛁᛏ</div>
+          <div class="rune-line">ᛞᛖᛊ · ᛏᛟᛏᛖᚾ · ᚾᚨᛗᛖ · ᛁᛊᛏ · ᛖᛁᚾᛊ</div>
+          <div class="rune-line">ᛞᛖᛊ · ᚲᛁᛚᛚᛖᚱᛊ · ᚾᚨᛗᛖ · ᛁᛊᛏ · ᛉᚹᛖᛁ</div>
+          <div class="rune-line">ᛞᛖᚱ · ᛉᛖᚢᚷᛖ · ᚾᚨᛗᛖ · ᛁᛊᛏ · ᛞᚱᛖᛁ</div>
+          <div class="rune-line">ᚾᛖᚾᚾᛖ · ᚨᛚᛚᛖ · ᛞᚱᛖᛁ · ᛚᚨᚢᛏ</div>
+          <div class="rune-note">
+            <strong>Voss research note (2023):</strong> "Lines 9–12 stopped me cold. Rough translation of the plain lines: 'The dead man's name is one / the killer's name is two / the witness's name is three / name all three aloud.' This is not cosmological. This is forensic. This text knows something about a death. I need to be careful about how I proceed with this."
+          </div>
+        </div>
+        <div class="rune-page-footer">
+          <span>Folio 2v · 12 lines + marginal marks · Cipher line unresolved</span>
+          <span>Last annotated by Voss: October 2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="content-section" id="page3">
+      <div class="section-title">Page 3 — Third Inscription <span class="tag tag-transcribed" style="font-size:11px;vertical-align:middle;margin-left:0.5rem;">Transcribed</span></div>
+      <div class="section-subtitle">Folio 3r · 10 lines · Dense cipher layer · Final page of codex</div>
+
+      <p class="prose">The third page was the last Dr. Voss worked on. His notes indicate he considered it the most urgent, describing it in correspondence as "the page that changes everything." It is the most heavily ciphered of the three inscriptions, and Voss's transcription notes contain more uncertainty markers than the others. The final two lines appear to have been added in a different ink, suggesting a later amendment.</p>
+
+      <div class="rune-page" id="rune-p3">
+        <div class="rune-page-header">
+          <h4>Codex Noctis — Folio 3r (Page 3 Transcription)</h4>
+          <span>Transcribed by Dr. Voss, 2024 — FINAL WORKING DRAFT</span>
+        </div>
+        <div class="rune-page-body">
+          <div class="rune-line">ᚻᛖᚱ · ᛚᛁᛖᚷᛏ · ᛞᛖᚱ · ᛊᛚᚢᛊᛊᛖᛚ · ᛉᚢᚱ · ᚹᚨᚺᚱᚺᛖᛁᛏ</div>
+          <div class="rune-line">ᚾᛁᛖᛗᚨᚾᛞ · ᚲᚨᚾᚾ · ᛁᚺᚾ · ᚢᚾᛒᛖᚷᚨᚾᚷᛖᚾ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᛊᛖᚲᚺᛊ · ᚦᛁᛖᚱᛖ · ᚺᚢᛏ · ᛞᚨᛊ · ᚠᛖᛚᛞ</div>
+          <div class="rune-line">ᛖᛁᚾ · ᚨᚢᚷᛖ · ᛖᚱᚲᛖᚾᚾᛏ · ᚾᛁᛖ · ᛞᛁᛖ · ᚹᚨᚺᚱᚺᛖᛁᛏ</div>
+          <div class="rune-line">ᚾᚢᚱ · ᛞᛁᛖ · ᚹᛟᚱᛏᛖ · ᚹᛖᚱᛞᛖᚾ · ᛞᛁᛖ · ᛏᚢᚱ · ᛖᚾᛏᚱᛁᛖᚷᛖᛚᚾ</div>
+          <hr class="rune-divider">
+          <div class="rune-line">ᛈ · ᛖ · ᚱ · ᛊ · ᛟ · ᚾ · ᚨ · ᛗ</div>
+          <div class="rune-note" style="margin-top:0.5rem;margin-bottom:0.75rem;">
+            <strong>Voss note:</strong> "Again — spaced individual characters. Line 6: P-E-R-S-O-N-A-M or equivalent — 'the name of the person'? Latin intrusion or coincidence? This needs fresh eyes."
+          </div>
+          <div class="rune-line">ᛞᛁᛖ · ᛊᚲᚺᚢᛚᛞ · ᛁᛊᛏ · ᚾᛁᚲᚺᛏ · ᛁᛗ · ᚾᚨᛗᛖᚾ</div>
+          <div class="rune-line">ᛞᛁᛖ · ᛊᚲᚺᚢᛚᛞ · ᛁᛊᛏ · ᛁᛗ · ᛏᚨᛏ</div>
+          <hr class="rune-divider">
+          <div class="rune-line" style="color:#4a0a0a;font-style:italic;">ᛞᛖᚱ · ᛏᛟᛏᛖ · ᚹᛖᛁᛊᛊ · ᛞᛖᚾ · ᛗᛟᚱᛞᛖᚱᛖᚱ</div>
+          <div class="rune-line" style="color:#4a0a0a;font-style:italic;">ᛞᛖᚾ · ᛗᛟᚱᛞᛖᚱᛖᚱ · ᛁᛊᛏ · ᚢᚾᛏᛖᚱ · ᛖᚢᚲᚺ</div>
+          <div class="rune-note" style="background:#fdf2f2;border-color:#d9a0a0;border-left-color:#8b1a1a;">
+            <strong>Voss final annotation (October 31, 2024 — two weeks before death):</strong> "Lines 9–10 are in a different ink. Later addition. Translation: 'The dead man knows the killer / the killer is among you.' I don't think this is ancient. I think this manuscript was tampered with recently. Someone added these lines. Someone who knows what happened — or who is about to make something happen. I am going to bring this to [text ends abruptly]"
+          </div>
+        </div>
+        <div class="rune-page-footer">
+          <span>Folio 3r · 10 lines · Lines 9–10 in secondary ink</span>
+          <span>Last annotated by Voss: October 31, 2024</span>
+        </div>
+      </div>
+
+      <p class="prose" style="margin-top:1.5rem;">Dr. Voss's physical research notebook, containing handwritten margin annotations cross-referencing all three pages, has been secured by the university. Requests for access should be directed to the department administrator.</p>
+    </div>
+
+  </main>
+
+  <aside>
+    <div class="toc-card">
+      <div class="toc-header">On This Page</div>
+      <div class="toc-body">
+        <a href="#overview" class="toc-item">Project Overview</a>
+        <a href="#cover" class="toc-item">Cover Illustration</a>
+        <a href="#page1" class="toc-item">Page 1 — Folio 2r</a>
+        <a href="#page2" class="toc-item">Page 2 — Folio 2v</a>
+        <a href="#page3" class="toc-item">Page 3 — Folio 3r</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-header">Manuscript Record</div>
+      <div class="info-body">
+        <div class="info-row"><span class="info-label">Call Number</span><span class="info-value">MS-2018-014</span></div>
+        <div class="info-row"><span class="info-label">Date Range</span><span class="info-value">9th–11th c. CE (est.)</span></div>
+        <div class="info-row"><span class="info-label">Material</span><span class="info-value">Vellum, pigment</span></div>
+        <div class="info-row"><span class="info-label">Pages</span><span class="info-value">4 (1 image, 3 text)</span></div>
+        <div class="info-row"><span class="info-label">Language</span><span class="info-value">Unknown / contested</span></div>
+        <div class="info-row"><span class="info-label">Location</span><span class="info-value">Special Collections</span></div>
+        <div class="info-row"><span class="info-label">Access</span><span class="info-value">Restricted</span></div>
+      </div>
+    </div>
+
+    <div class="info-card" style="margin-top:1.5rem;">
+      <div class="info-header">Decipherment Status</div>
+      <div class="info-body">
+        <div class="info-row"><span class="info-label">Page 1</span><span class="info-value"><span class="tag tag-partial">Partial</span></span></div>
+        <div class="info-row"><span class="info-label">Page 2</span><span class="info-value"><span class="tag tag-undeciphered">Cipher unresolved</span></span></div>
+        <div class="info-row"><span class="info-label">Page 3</span><span class="info-value"><span class="tag tag-transcribed">Transcribed</span></span></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>© Ashford University · Runic Studies Project — Codex Noctis<br>Research materials last updated by Dr. Voss, October 2024.</div>
+    <div class="footer-links">
+      <a href="#">Accessibility</a>
+      <a href="index.html">Dr. Voss Home</a>
+      <a href="employees.html">Directory</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

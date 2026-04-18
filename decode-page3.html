@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forensic Text Analysis — Nordic Philology Society — Member Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --maroon: #4a0e1a; --border: #dac8c8; --bg: #faf7f7; --bg-card: #fff; --text: #1c1c1c; --text-muted: #555; --text-light: #888; --accent: #7a1a2a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+  .site-bar { background:var(--maroon); padding:0.5rem 2rem; font-size:12px; color:rgba(255,255,255,0.65); display:flex; justify-content:space-between; align-items:center; }
+  .site-bar strong { color:rgba(255,255,255,0.9); }
+  .site-bar a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:11px; }
+  .page-wrap { max-width:980px; margin:0 auto; padding:2rem; }
+  h1 { font-size:1.2rem; font-weight:600; color:var(--maroon); margin-bottom:0.25rem; }
+  .subtitle { font-size:13px; color:var(--text-muted); margin-bottom:2rem; }
+  .card { background:var(--bg-card); border:1px solid var(--border); padding:1.5rem; margin-bottom:1.5rem; }
+  .card-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--maroon); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border); }
+  .analysis-note { background:#fdf0f0; border:1px solid #e0b0b0; border-left:3px solid var(--accent); padding:0.8rem 1rem; font-size:13px; color:var(--text-muted); line-height:1.6; }
+  .analysis-note strong { color:var(--text); }
+
+  /* NAME CHECKER */
+  .name-entry { display:flex; gap:0.75rem; margin-bottom:0.75rem; align-items:flex-start; }
+  .name-entry input { border:1px solid var(--border); padding:0.55rem 0.75rem; font-size:13px; font-family:'Source Code Pro',monospace; flex:1; }
+  .name-entry input:focus { outline:none; border-color:var(--accent); }
+  .name-result { font-size:13px; min-width:140px; padding:0.55rem 0.75rem; border:1px solid var(--border); background:var(--bg); font-family:'Source Code Pro',monospace; color:var(--text-muted); }
+  .match-yes { background:#e8f5e8 !important; color:#1a5a1a !important; border-color:#90c890 !important; font-weight:600; }
+  .match-no { background:#fdf0f0 !important; color:#7a1a1a !important; border-color:#e0b0b0 !important; }
+  .btn { font-size:13px; font-weight:500; background:var(--maroon); color:#fff; border:none; padding:0.55rem 1.3rem; cursor:pointer; }
+  .btn:hover { background:#350a12; }
+  .btn-sm { font-size:12px; padding:0.4rem 0.9rem; }
+  .btn-outline { background:transparent; color:var(--maroon); border:1px solid var(--border); }
+
+  /* HANDWRITING */
+  .hw-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+  .hw-card { border:1px solid var(--border); overflow:hidden; }
+  .hw-card-name { background:var(--maroon); color:#fff; padding:0.5rem 0.75rem; font-size:12px; font-weight:600; }
+  .hw-sample { background:#fdf8f0; padding:1rem 1.2rem; min-height:120px; position:relative; }
+  .hw-sample::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(transparent,transparent 22px,rgba(0,0,0,0.05) 22px,rgba(0,0,0,0.05) 23px); pointer-events:none; }
+  .hw-text { position:relative; z-index:1; font-style:italic; font-size:12.5px; line-height:1.85; color:#2a1a0a; }
+  .hw-text.eh { font-family:'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:13px; }
+  .hw-text.mk { font-family:'Times New Roman',Times,serif; font-size:12px; letter-spacing:-0.01em; }
+  .hw-text.sr { font-family:'Georgia',serif; font-size:13.5px; letter-spacing:0.01em; }
+  .hw-text.tw { font-family:'Courier New',monospace; font-style:normal; font-size:11.5px; }
+  .hw-text.pm { font-family:'Palatino Linotype',serif; font-size:12px; }
+  .hw-text.jf { font-family:'Times New Roman',serif; font-size:12.5px; }
+  .hw-meta { background:var(--bg); border-top:1px solid var(--border); padding:0.5rem 0.75rem; font-size:11px; color:var(--text-light); }
+
+  /* TRAIT TABLE */
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { background:var(--bg); border:1px solid var(--border); padding:0.5rem 0.75rem; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:600; text-align:left; }
+  td { border:1px solid var(--border); padding:0.5rem 0.75rem; vertical-align:top; }
+  tr:nth-child(even) td { background:#fdfafa; }
+  .trait-yes { color:#1a5a1a; font-weight:500; }
+  .trait-no { color:#888; }
+  .trait-maybe { color:#7a4a00; }
+
+  /* PAGE 3 TEXT */
+  .rune-line { font-size:1.3rem; letter-spacing:0.15em; color:var(--text); line-height:1.9; font-family:'Source Code Pro',monospace; margin-bottom:0.2rem; }
+  .rune-line.secondary { color:var(--maroon); font-style:italic; }
+
+  /* ANSWER BOX */
+  .answer-submit { display:flex; gap:0.75rem; align-items:flex-end; margin-top:1.5rem; }
+  .answer-submit input { border:1px solid var(--border); padding:0.65rem 0.9rem; font-size:15px; font-family:'Source Code Pro',monospace; flex:1; letter-spacing:0.05em; }
+  .answer-submit input:focus { outline:none; border-color:var(--accent); }
+  #answer-feedback { font-size:13px; padding:0.75rem 1rem; border:1px solid var(--border); display:none; }
+  .answer-correct { background:#e8f5e8; border-color:#90c890 !important; color:#1a5a1a; }
+  .answer-wrong { background:#fdf0f0; border-color:#e0b0b0 !important; color:#7a1a1a; }
+
+  footer { font-size:11px; color:var(--text-light); text-align:center; padding:2rem; border-top:1px solid var(--border); margin-top:1rem; }
+</style>
+</head>
+<body>
+<div class="site-bar">
+  <div><strong>Nordic Philology Society</strong> — Member Working Area</div>
+  <a href="#">Member access — do not distribute</a>
+</div>
+<div class="page-wrap">
+  <h1>Forensic Text Analysis — Codex Noctis, Page 3</h1>
+  <div class="subtitle">Name resolution · Handwriting trait reference · Suspect correlation — NPS Member Tools</div>
+
+  <div class="card">
+    <div class="card-title">Page 3 — Summary &amp; Task</div>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">The final page of the Codex Noctis (Folio 3r), as partially translated by Dr. Voss, contains a later amendment in a different ink. The amended lines read: <em>"The dead man knows the killer / the killer is among you."</em></p>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">Voss believed these lines were added recently — not centuries ago. This means someone with access to the manuscript added a message that directly references a planned or committed act. The amended lines are in handwritten runic script, not printed or stamped.</p>
+    <div class="analysis-note">
+      <strong>The three-name structure (from Page 2):</strong> "The dead man's name is one / the killer's name is two / the witness's name is three." Using what you have decoded from Pages 1 and 2, identify all three names. Then examine the handwriting samples below. One of the colleagues' sympathy notes matches the hand that amended the manuscript.
+    </div>
+  </div>
+
+  <!-- PAGE 3 RUNE TEXT -->
+  <div class="card">
+    <div class="card-title">Folio 3r — Lines 9–10 (Secondary Ink — Later Addition)</div>
+    <div class="rune-line secondary">ᛞᛖᚱ · ᛏᛟᛏᛖ · ᚹᛖᛁᛊᛊ · ᛞᛖᚾ · ᛗᛟᚱᛞᛖᚱᛖᚱ</div>
+    <div class="rune-line secondary">ᛞᛖᚾ · ᛗᛟᚱᛞᛖᚱᛖᚱ · ᛁᛊᛏ · ᚢᚾᛏᛖᚱ · ᛖᚢᚲᚺ</div>
+    <div style="margin-top:1rem;font-size:13px;color:var(--text-muted);font-style:italic;">Translation (Voss): "The dead man knows the killer / the killer is among you."</div>
+    <div class="analysis-note" style="margin-top:1rem;">
+      <strong>Forensic observation:</strong> These two lines were inscribed by hand using a fine-point pen instrument, not by any traditional method. The rune forms show individual flourishes — looped strokes on certain staves, distinctive handling of the · separator dots, and characteristic letter slant — that are consistent with a modern educated writer familiar with Elder Futhark. Cross-reference against the sympathy note samples below.
+    </div>
+  </div>
+
+  <!-- NAME CHECKER -->
+  <div class="card">
+    <div class="card-title">Name Resolution Tool</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;">Using the decoded names from Pages 1 and 2, enter candidate names below to verify them against the codex structure. The three roles are: the victim, the killer, and the witness.</p>
+    <div id="name-rows">
+      <div style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.5rem;font-size:11px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.05em;padding:0 0.1rem;">
+        <div>Role</div><div>Name (first or last)</div><div>Runic check</div><div>Status</div>
+      </div>
+      <div class="name-entry" style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0.5rem;align-items:center;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-muted);">Victim</div>
+        <input type="text" id="name1" placeholder="Enter name..." oninput="checkName(1)">
+        <div class="name-result" id="rune1">—</div>
+        <div class="name-result" id="status1">—</div>
+      </div>
+      <div class="name-entry" style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0.5rem;align-items:center;margin-top:0.5rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-muted);">Killer</div>
+        <input type="text" id="name2" placeholder="Enter name..." oninput="checkName(2)">
+        <div class="name-result" id="rune2">—</div>
+        <div class="name-result" id="status2">—</div>
+      </div>
+      <div class="name-entry" style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0.5rem;align-items:center;margin-top:0.5rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-muted);">Witness</div>
+        <input type="text" id="name3" placeholder="Enter name..." oninput="checkName(3)">
+        <div class="name-result" id="rune3">—</div>
+        <div class="name-result" id="status3">—</div>
+      </div>
+    </div>
+    <div class="answer-submit">
+      <input type="text" id="final-answer" placeholder="Enter the killer's full name to submit...">
+      <button class="btn" onclick="submitAnswer()">Submit</button>
+    </div>
+    <div id="answer-feedback" style="margin-top:0.75rem;"></div>
+  </div>
+
+  <!-- HANDWRITING SAMPLES -->
+  <div class="card">
+    <div class="card-title">Handwriting Trait Reference — Sympathy Notes</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.2rem;">The following samples are rendered approximations of the handwriting styles observed in the sympathy notes on file. The amended lines in the Codex Noctis show: <strong>upright or slight right-leaning strokes</strong>, <strong>angular letterforms</strong>, <strong>compressed letter spacing</strong>, <strong>heavy initial strokes on staves</strong>, and <strong>precise dot placement</strong>. Compare against each colleague's documented style.</p>
+    <div class="hw-grid">
+      <div class="hw-card">
+        <div class="hw-card-name">Dr. Elsa Holt</div>
+        <div class="hw-sample"><div class="hw-text eh">To the department —<br>Aldric was more than a<br>colleague to me. I find it<br>impossible to express<br>what we have lost.<br>— Elsa</div></div>
+        <div class="hw-meta">Style: flowing cursive · Right lean · Rounded forms · Connected strokes</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card-name">Prof. Marcus Keller</div>
+        <div class="hw-sample"><div class="hw-text mk">Whatever disagreements<br>we had over method —<br>and there were many —<br>I respected his work.<br>The dept is lesser.<br>M. Keller</div></div>
+        <div class="hw-meta">Style: compressed print · Upright · Angular · Heavy initial strokes · Precise</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card-name">Dr. Sigrid Ravn</div>
+        <div class="hw-sample"><div class="hw-text sr">I did not know Aldric<br>long — but I have<br>never met a mind so<br>alive to the past.<br>Sigrid Ravn</div></div>
+        <div class="hw-meta">Style: open rounded cursive · Slight right lean · Light pressure · Generous spacing</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card-name">Thomas Wren</div>
+        <div class="hw-sample"><div class="hw-text tw">Dr. Voss —<br>You always said the<br>text would outlast us.<br>I'm going to finish<br>what we started.<br>Tom</div></div>
+        <div class="hw-meta">Style: irregular print · Mixed case · Pencil · Uneven baseline · Abrupt strokes</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card-name">Petra Mach</div>
+        <div class="hw-sample"><div class="hw-text pm">To the department<br>and family —<br>Dr. Voss was always<br>generous. He will be<br>deeply missed.<br>Petra Mach</div></div>
+        <div class="hw-meta">Style: neat cursive · Consistent slant · Moderate pressure · Even spacing</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card-name">Jean Foster</div>
+        <div class="hw-sample"><div class="hw-text jf">He always remembered<br>my name, said please<br>and thank you — not<br>as common as it should<br>be. Very missed.<br>— Jean</div></div>
+        <div class="hw-meta">Style: upright block print · Red ink · Clear letterforms · Wide spacing</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAIT COMPARISON TABLE -->
+  <div class="card">
+    <div class="card-title">Handwriting Trait Comparison — Manuscript Amendment vs. Colleagues</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Trait observed in manuscript</th>
+          <th>Holt</th>
+          <th>Keller</th>
+          <th>Ravn</th>
+          <th>Wren</th>
+          <th>Mach</th>
+          <th>Foster</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Upright or slight right-lean stroke</td>
+          <td class="trait-no">No (right lean)</td>
+          <td class="trait-yes">Yes</td>
+          <td class="trait-no">No (open lean)</td>
+          <td class="trait-maybe">Variable</td>
+          <td class="trait-maybe">Moderate</td>
+          <td class="trait-yes">Yes</td>
+        </tr>
+        <tr>
+          <td>Angular, compressed letterforms</td>
+          <td class="trait-no">No (rounded)</td>
+          <td class="trait-yes">Yes</td>
+          <td class="trait-no">No</td>
+          <td class="trait-maybe">Partial</td>
+          <td class="trait-no">No</td>
+          <td class="trait-no">No (wide)</td>
+        </tr>
+        <tr>
+          <td>Heavy initial stroke on staves</td>
+          <td class="trait-no">No</td>
+          <td class="trait-yes">Yes</td>
+          <td class="trait-no">No</td>
+          <td class="trait-no">No</td>
+          <td class="trait-no">No</td>
+          <td class="trait-no">No</td>
+        </tr>
+        <tr>
+          <td>Precise dot/separator placement</td>
+          <td class="trait-no">Casual</td>
+          <td class="trait-yes">Yes</td>
+          <td class="trait-no">Casual</td>
+          <td class="trait-no">No</td>
+          <td class="trait-maybe">Moderate</td>
+          <td class="trait-no">No</td>
+        </tr>
+        <tr>
+          <td>Familiarity with runic stave structure</td>
+          <td class="trait-yes">High</td>
+          <td class="trait-yes">High</td>
+          <td class="trait-yes">High</td>
+          <td class="trait-maybe">Moderate</td>
+          <td class="trait-no">Low</td>
+          <td class="trait-no">None</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text);">Overall match to amendment</td>
+          <td class="trait-no">Low</td>
+          <td class="trait-yes" style="font-weight:700;">High</td>
+          <td class="trait-no">Low</td>
+          <td class="trait-maybe">Partial</td>
+          <td class="trait-no">Low</td>
+          <td class="trait-no">Low</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Nordic Philology Society — Member Working Area — Restricted Access<br>contact@nordic-philology.org</footer>
+</div>
+
+<script>
+const FUTHARK_MAP = {
+  'F':'ᚠ','U':'ᚢ','TH':'ᚦ','A':'ᚨ','R':'ᚱ','K':'ᚲ','G':'ᚷ','W':'ᚹ',
+  'H':'ᚺ','N':'ᚾ','I':'ᛁ','J':'ᛃ','P':'ᛈ','Z':'ᛉ','S':'ᛊ','T':'ᛏ',
+  'B':'ᛒ','E':'ᛖ','M':'ᛗ','L':'ᛚ','NG':'ᛜ','D':'ᛞ','O':'ᛟ','V':'ᚢ','C':'ᚲ'
+};
+
+function toRune(name) {
+  let s = name.toUpperCase(); let r = '';
+  let i = 0;
+  while(i < s.length) {
+    if(s.substring(i,i+2)==='TH'){r+=FUTHARK_MAP['TH'];i+=2;}
+    else if(s.substring(i,i+2)==='NG'){r+=FUTHARK_MAP['NG'];i+=2;}
+    else { r+=(FUTHARK_MAP[s[i]]||s[i]); i++; }
+  }
+  return r;
+}
+
+function checkName(n) {
+  const val = document.getElementById(`name${n}`).value.trim();
+  const runeEl = document.getElementById(`rune${n}`);
+  const statusEl = document.getElementById(`status${n}`);
+  if(!val){runeEl.textContent='—';statusEl.textContent='—';return;}
+  runeEl.textContent = toRune(val);
+  statusEl.textContent = val.length > 0 ? 'Entered' : '—';
+}
+
+const ANSWER = 'marcus keller';
+
+function submitAnswer() {
+  const ans = document.getElementById('final-answer').value.trim().toLowerCase();
+  const fb = document.getElementById('answer-feedback');
+  fb.style.display = 'block';
+  fb.className = '';
+  if(ans === ANSWER || ans === 'keller' || ans === 'prof keller' || ans === 'professor keller') {
+    fb.className = 'answer-correct';
+    fb.innerHTML = '<strong>✓ Correct.</strong> Prof. Marcus Keller. The handwriting analysis, the decoded names from Pages 1 and 2, and the forensic evidence from Page 3 all converge on the same answer. Well done.';
+  } else if(ans.includes('keller')) {
+    fb.className = 'answer-correct';
+    fb.innerHTML = '<strong>✓ Correct.</strong> Prof. Marcus Keller is the killer. The evidence across all three pages and the handwriting samples confirms it.';
+  } else {
+    fb.className = 'answer-wrong';
+    fb.innerHTML = '<strong>Not quite.</strong> Review the handwriting trait comparison and the decoded name structure from Pages 1 and 2. All three names must account for: the victim (Voss), the witness, and the killer.';
+  }
+}
+</script>
+</body>
+</html>
