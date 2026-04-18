@@ -53,56 +53,11 @@
   <a href="#">Internal Reference — Not for public distribution</a>
 </div>
 <div class="page-wrap">
-  <h1>Elder Futhark Transliteration Reference &amp; Working Tools</h1>
-  <div class="subtitle">Standard Elder Futhark character table · Transliteration utility · Keyword extraction — RTAC Internal Tool v2.3</div>
-
-  <div class="card">
-    <h2>Elder Futhark Character Table</h2>
-    <div class="futhark-grid" id="futhtable"></div>
-    <div class="ref-note" style="margin-top:1rem;">
-      <strong>Note on the Codex Noctis (Page 1):</strong> The standard transliteration below applies to the bulk of Folio 2r. Dr. Voss flagged one anomalous sequence — a spaced 9-character line (line 9) — as a possible acrostic or positional cipher. The characters spell out a sequence in their isolated form. Use the keyword tool below to test extracted strings against known word lists or proposed keys.
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Transliterator — Rune to Latin / Latin to Rune</h2>
-    <div class="tool-row">
-      <div class="tool-col">
-        <label for="input-text">Input text</label>
-        <textarea id="input-text" placeholder="Paste runes (e.g. ᚠᚢᚦᚨᚱᚲ) or Latin letters here..."></textarea>
-      </div>
-      <div class="tool-col">
-        <label>Output</label>
-        <div class="output-box" id="output-text">Output will appear here</div>
-        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;">
-          <button class="btn" onclick="transliterate('rune-to-latin')">Rune → Latin</button>
-          <button class="btn" onclick="transliterate('latin-to-rune')">Latin → Rune</button>
-          <button class="btn btn-outline" onclick="document.getElementById('input-text').value='';document.getElementById('output-text').textContent='Output will appear here'">Clear</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="keyword-section">
-      <h2 style="border:none;padding:0;margin-bottom:0.75rem;">Acrostic / Keyword Extractor</h2>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;">Extract the first character of each word from a transliterated line, or test a string against a known keyword. Useful for analyzing spaced or isolated character sequences.</p>
-      <div class="input-row">
-        <div style="flex:2;">
-          <label for="acro-input">Paste transliterated line (Latin characters)</label>
-          <input type="text" id="acro-input" placeholder="e.g. TH A R S K U E N S">
-        </div>
-        <button class="btn" onclick="extractAcrostic()">Extract</button>
-      </div>
-      <div class="acrostic-result" id="acro-result"></div>
-    </div>
-  </div>
-
+  <h1>Dr. Voss Notes</h1>
   <div class="card">
     <h2>Page 1 Cipher Line — Working Notes</h2>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;">Line 9 of Folio 2r presents the sequence: <strong style="font-family:'Source Code Pro',monospace;font-size:1.1rem;color:var(--blue);">ᚦ · ᚨ · ᚱ · ᛊ · ᚲ · ᚢ · ᛖ · ᚾ · ᛊ</strong></p>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;">Standard transliteration: <strong style="font-family:'Source Code Pro',monospace;">TH · A · R · S · K · U · E · N · S</strong></p>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">Voss hypothesis: positional cipher or acrostic keyword. The surrounding text instructs the reader to <em>"speak the name aloud."</em> Test candidate words or names using the transliterator and keyword tool above. What 9-letter word or name do these characters spell when their phonetic values are applied in order?</p>
     <div class="ref-note">
-      <strong>Hint from Voss's notes:</strong> "Think about who this book belonged to. The name isn't in the text — the text is pointing outward. Use the cover image."
+      <strong>Voss's notes:</strong> "There seem to be 26 different runes. I wonder if that means anything"
     </div>
   </div>
 
